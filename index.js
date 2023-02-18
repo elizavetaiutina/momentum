@@ -1,6 +1,7 @@
 const time = document.querySelector(".time");
 const date = document.querySelector(".date");
 const greeting = document.querySelector(".greeting");
+const name = document.querySelector(".name");
 
 // Приветствие
 function showGreeting() {
@@ -21,7 +22,7 @@ function showGreeting() {
   }
 
   const timeOfDay = getTimeOfDay();
-  const greetingText = `Good ${timeOfDay}`;
+  const greetingText = `Good ${timeOfDay},`;
   greeting.textContent = greetingText;
 }
 
@@ -42,3 +43,18 @@ function showTime() {
 }
 
 showTime();
+
+// Local storage name input
+function setLocalStorage() {
+  console.log(name);
+  localStorage.setItem("name", name.value);
+}
+window.addEventListener("beforeunload", setLocalStorage);
+
+function getLocalStorage() {
+  console.log(name);
+  if (localStorage.getItem("name")) {
+    name.value = localStorage.getItem("name");
+  }
+}
+window.addEventListener("load", getLocalStorage);
