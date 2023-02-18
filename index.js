@@ -46,15 +46,46 @@ showTime();
 
 // Local storage name input
 function setLocalStorage() {
-  console.log(name);
   localStorage.setItem("name", name.value);
+  localStorage.setItem("city", city.value);
 }
 window.addEventListener("beforeunload", setLocalStorage);
 
 function getLocalStorage() {
-  console.log(name);
   if (localStorage.getItem("name")) {
     name.value = localStorage.getItem("name");
   }
+
+  if (localStorage.getItem("city")) {
+    city.value = localStorage.getItem("city");
+  }
 }
 window.addEventListener("load", getLocalStorage);
+
+const weatherIcon = document.querySelector(".weather-icon");
+const temperature = document.querySelector(".temperature");
+const weatherDescription = document.querySelector(".weather-description");
+const city = document.querySelector(".city");
+console.log(city);
+
+async function getWeather() {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${
+    "moscow" || city.value
+  }&lang=ru&appid=08f2a575dda978b9c539199e54df03b0&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json();
+  weatherIcon.className = "weather-icon owf";
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+}
+
+function setCity(event) {
+  if (event.code === "Enter") {
+    getWeather();
+    city.blur();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", getWeather);
+city.addEventListener("keypress", setCity);
