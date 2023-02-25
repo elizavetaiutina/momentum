@@ -8,3 +8,7 @@ export const slidePrev = document.querySelector(".slide-prev");
 export const weatherIcon = document.querySelector(".weather-icon");
 export const temperature = document.querySelector(".temperature");
 export const weatherDescription = document.querySelector(".weather-description");
+
+export const quote = document.querySelector(".quote");
+export const author = document.querySelector(".author");
+export const buttonChangeQuote = document.querySelector(".change-quote");

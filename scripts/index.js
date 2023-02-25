@@ -9,7 +9,11 @@ import {
   weatherIcon,
   temperature,
   weatherDescription,
+  quote,
+  author,
+  buttonChangeQuote,
 } from "./constants.js";
+//import quotes from "./quotes.json";
 
 function getTimeOfDay() {
   const hours = new Date().getHours();
@@ -76,10 +80,10 @@ window.addEventListener("load", getLocalStorage);
 /*---------------- TASK 3:  Слайдер изображений ----------------*/
 
 //возвращающую рандомное число от 1 до 20 включительно
-function getRandomNum() {
-  return Math.ceil(Math.random() * (20 - 1) + 1);
+function getRandomNum(min, max) {
+  return Math.ceil(Math.random() * (max - min) + min);
 }
-let randomNum = getRandomNum();
+let randomNum = getRandomNum(1, 20);
 
 // функция, обновляющая фоновое изображение
 function setBg(num) {
@@ -135,3 +139,19 @@ function setCity(event) {
 }
 
 city.addEventListener("keypress", setCity);
+
+/*---------------- TASK 5:  Виджет "цитата дня" ----------------*/
+
+async function getQuotes() {
+  const quotes = "scripts/quotes.json";
+  const res = await fetch(quotes);
+  const data = await res.json();
+
+  const randomQuote = getRandomNum(0, data.length - 1);
+  quote.textContent = data[randomQuote].text;
+  author.textContent = data[randomQuote].author;
+}
+
+getQuotes();
+
+buttonChangeQuote.addEventListener("click", getQuotes);
