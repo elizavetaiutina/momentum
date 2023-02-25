@@ -87,6 +87,7 @@ window.addEventListener("load", getLocalStorage);
 function getRandomNum(min, max) {
   return Math.ceil(Math.random() * (max - min) + min);
 }
+/*
 let randomNum = getRandomNum(1, 20);
 
 // функция, обновляющая фоновое изображение
@@ -102,20 +103,40 @@ function setBg(num) {
 }
 
 setBg(randomNum);
+*/
+
+/*---------------- TASK 9:  Получение фонового изображения от API ----------------*/
+
+async function getLinkToImage() {
+  const url =
+    "https://api.unsplash.com/photos/random?query=morning&client_id=x4kOnPmLzOt21YgSiYdypafWBV4ds6gevVdnIFFxJ1M";
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log(data.urls.regular);
+  const img = new Image();
+  img.src = data.urls.regular;
+  img.onload = () => {
+    document.body.style.backgroundImage = `url(${img.src})`;
+  };
+}
+
+getLinkToImage();
 
 //функции для переключения слайда
 function getSlideNext() {
-  if (randomNum === 20) {
+  /*if (randomNum === 20) {
     randomNum = 1;
   } else randomNum += 1;
-  setBg(randomNum);
+  setBg(randomNum);*/
+  getLinkToImage();
 }
 
 function getSlidePrev() {
-  if (randomNum === 1) {
+  /*if (randomNum === 1) {
     randomNum = 20;
   } else randomNum -= 1;
-  setBg(randomNum);
+  setBg(randomNum);*/
+  getLinkToImage();
 }
 
 slideNext.addEventListener("click", getSlideNext);
@@ -217,5 +238,3 @@ playList.forEach((item) => {
   li.textContent = item.title;
   playListContainer.append(li);
 });
-
-console.log(playNum);
