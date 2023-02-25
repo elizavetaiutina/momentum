@@ -12,8 +12,12 @@ import {
   quote,
   author,
   buttonChangeQuote,
+  buttonPlayPrev,
+  buttonPlay,
+  buttonPlayNext,
+  playListContainer,
 } from "./constants.js";
-//import quotes from "./quotes.json";
+import playList from "./playList.js";
 
 function getTimeOfDay() {
   const hours = new Date().getHours();
@@ -155,3 +159,63 @@ async function getQuotes() {
 getQuotes();
 
 buttonChangeQuote.addEventListener("click", getQuotes);
+
+/*---------------- TASK 6:  Аудиоплеер ----------------*/
+
+let isPlay = false;
+
+const audio = new Audio();
+let playNum = 0;
+
+function playAudio(playNum) {
+  audio.src = playList[playNum].src; // ссылка на аудио-файл;
+  playList[playNum].src;
+  if (!isPlay) {
+    audio.currentTime = 0;
+    audio.play();
+    isPlay = true;
+  } else {
+    audio.pause();
+    isPlay = false;
+  }
+  toggleBtn();
+}
+
+function toggleBtn() {
+  if (!isPlay) {
+    buttonPlay.classList.remove("pause");
+  } else {
+    buttonPlay.classList.add("pause");
+  }
+}
+
+buttonPlay.addEventListener("click", () => playAudio(playNum));
+
+// функции для пролистывания треков
+function playNext() {
+  if (playNum === playList.length - 1) {
+    playNum = 0;
+  } else playNum += 1;
+  isPlay = true;
+  playAudio(playNum);
+}
+
+function playPrev() {
+  if (playNum === 0) {
+    playNum = playList.length - 1;
+  } else playNum -= 1;
+  isPlay = true;
+  playAudio(playNum);
+}
+
+buttonPlayNext.addEventListener("click", playNext);
+buttonPlayPrev.addEventListener("click", playPrev);
+
+playList.forEach((item) => {
+  const li = document.createElement("li");
+  li.classList.add("play-item");
+  li.textContent = item.title;
+  playListContainer.append(li);
+});
+
+console.log(playNum);

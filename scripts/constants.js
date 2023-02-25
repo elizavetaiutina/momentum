@@ -12,3 +12,8 @@ export const weatherDescription = document.querySelector(".weather-description")
 export const quote = document.querySelector(".quote");
 export const author = document.querySelector(".author");
 export const buttonChangeQuote = document.querySelector(".change-quote");
+
+export const buttonPlayPrev = document.querySelector(".play-prev");
+export const buttonPlay = document.querySelector(".play");
+export const buttonPlayNext = document.querySelector(".play-next");
+export const playListContainer = document.querySelector(".play-list");
