@@ -1,7 +1,15 @@
-const time = document.querySelector(".time");
-const date = document.querySelector(".date");
-const greeting = document.querySelector(".greeting");
-const name = document.querySelector(".name");
+import {
+  time,
+  date,
+  greeting,
+  name,
+  city,
+  slideNext,
+  slidePrev,
+  weatherIcon,
+  temperature,
+  weatherDescription,
+} from "./constants.js";
 
 function getTimeOfDay() {
   const hours = new Date().getHours();
@@ -19,7 +27,7 @@ function getTimeOfDay() {
   }
 }
 
-// Приветствие
+/*---------------- TASK 1 и 2:  Приветствие. Часы и календарь ----------------*/
 function showGreeting() {
   getTimeOfDay();
 
@@ -46,13 +54,14 @@ function showTime() {
 
 showTime();
 
-// Local storage name input
+// перед перезагрузкой или закрытием страницы (событие beforeunload) данные нужно сохранить
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
   localStorage.setItem("city", city.value);
 }
 window.addEventListener("beforeunload", setLocalStorage);
 
+// перед загрузкой страницы (событие load) данные нужно восстановить и отобразить
 function getLocalStorage() {
   if (localStorage.getItem("name")) {
     name.value = localStorage.getItem("name");
@@ -63,34 +72,6 @@ function getLocalStorage() {
   }
 }
 window.addEventListener("load", getLocalStorage);
-
-const weatherIcon = document.querySelector(".weather-icon");
-const temperature = document.querySelector(".temperature");
-const weatherDescription = document.querySelector(".weather-description");
-const city = document.querySelector(".city");
-console.log(city);
-
-async function getWeather() {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${
-    "moscow" || city.value
-  }&lang=ru&appid=08f2a575dda978b9c539199e54df03b0&units=metric`;
-  const res = await fetch(url);
-  const data = await res.json();
-  weatherIcon.className = "weather-icon owf";
-  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-  temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
-  weatherDescription.textContent = data.weather[0].description;
-}
-
-function setCity(event) {
-  if (event.code === "Enter") {
-    getWeather();
-    city.blur();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", getWeather);
-city.addEventListener("keypress", setCity);
 
 /*---------------- TASK 3:  Слайдер изображений ----------------*/
 
@@ -129,8 +110,28 @@ function getSlidePrev() {
   setBg(randomNum);
 }
 
-const slideNext = document.querySelector(".slide-next");
-const slidePrev = document.querySelector(".slide-prev");
-
 slideNext.addEventListener("click", getSlideNext);
 slidePrev.addEventListener("click", getSlidePrev);
+
+/*---------------- TASK 4:  Виджет погоды ----------------*/
+
+async function getWeather() {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=e46cf0673724ffb169bf8717c98cbe1f&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
+
+  weatherIcon.className = "weather-icon owf";
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+}
+
+function setCity(event) {
+  if (event.code === "Enter") {
+    getWeather();
+    city.blur();
+  }
+}
+
+city.addEventListener("keypress", setCity);

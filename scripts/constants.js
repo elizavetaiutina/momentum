@@ -1,0 +1,10 @@
+export const time = document.querySelector(".time");
+export const date = document.querySelector(".date");
+export const greeting = document.querySelector(".greeting");
+export const name = document.querySelector(".name");
+export const city = document.querySelector(".city");
+export const slideNext = document.querySelector(".slide-next");
+export const slidePrev = document.querySelector(".slide-prev");
+export const weatherIcon = document.querySelector(".weather-icon");
+export const temperature = document.querySelector(".temperature");
+export const weatherDescription = document.querySelector(".weather-description");
