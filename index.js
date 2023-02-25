@@ -3,23 +3,25 @@ const date = document.querySelector(".date");
 const greeting = document.querySelector(".greeting");
 const name = document.querySelector(".name");
 
+function getTimeOfDay() {
+  const hours = new Date().getHours();
+  if (hours >= 6 && hours < 12) {
+    return "morning";
+  }
+  if (hours >= 12 && hours < 18) {
+    return "afternoon";
+  }
+  if (hours >= 18 && hours <= 23) {
+    return "evening";
+  }
+  if (hours >= 0 && hours < 6) {
+    return "night";
+  }
+}
+
 // Приветствие
 function showGreeting() {
-  function getTimeOfDay() {
-    const hours = new Date().getHours();
-    if (hours >= 6 && hours < 12) {
-      return "morning";
-    }
-    if (hours >= 12 && hours < 18) {
-      return "afternoon";
-    }
-    if (hours >= 18 && hours <= 23) {
-      return "evening";
-    }
-    if (hours >= 0 && hours < 6) {
-      return "night";
-    }
-  }
+  getTimeOfDay();
 
   const timeOfDay = getTimeOfDay();
   const greetingText = `Good ${timeOfDay},`;
@@ -89,3 +91,46 @@ function setCity(event) {
 
 document.addEventListener("DOMContentLoaded", getWeather);
 city.addEventListener("keypress", setCity);
+
+/*---------------- TASK 3:  Слайдер изображений ----------------*/
+
+//возвращающую рандомное число от 1 до 20 включительно
+function getRandomNum() {
+  return Math.ceil(Math.random() * (20 - 1) + 1);
+}
+let randomNum = getRandomNum();
+
+// функция, обновляющая фоновое изображение
+function setBg(num) {
+  let timeOfDay = getTimeOfDay();
+  let bgNum = num.toString().padStart(2, "0");
+
+  const img = new Image();
+  img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+  img.onload = () => {
+    document.body.style.backgroundImage = `url(${img.src})`;
+  };
+}
+
+setBg(randomNum);
+
+//функции для переключения слайда
+function getSlideNext() {
+  if (randomNum === 20) {
+    randomNum = 1;
+  } else randomNum += 1;
+  setBg(randomNum);
+}
+
+function getSlidePrev() {
+  if (randomNum === 1) {
+    randomNum = 20;
+  } else randomNum -= 1;
+  setBg(randomNum);
+}
+
+const slideNext = document.querySelector(".slide-next");
+const slidePrev = document.querySelector(".slide-prev");
+
+slideNext.addEventListener("click", getSlideNext);
+slidePrev.addEventListener("click", getSlidePrev);
