@@ -112,7 +112,7 @@ async function getLinkToImage() {
     "https://api.unsplash.com/photos/random?query=morning&client_id=x4kOnPmLzOt21YgSiYdypafWBV4ds6gevVdnIFFxJ1M";
   const res = await fetch(url);
   const data = await res.json();
-  console.log(data.urls.regular);
+
   const img = new Image();
   img.src = data.urls.regular;
   img.onload = () => {
@@ -148,7 +148,6 @@ async function getWeather() {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=e46cf0673724ffb169bf8717c98cbe1f&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-  console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
 
   weatherIcon.className = "weather-icon owf";
   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
@@ -190,7 +189,6 @@ let playNum = 0;
 
 function playAudio(playNum) {
   audio.src = playList[playNum].src; // ссылка на аудио-файл;
-  playList[playNum].src;
   if (!isPlay) {
     audio.currentTime = 0;
     audio.play();
